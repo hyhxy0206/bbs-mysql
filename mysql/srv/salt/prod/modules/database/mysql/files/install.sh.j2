@@ -1,7 +1,0 @@
-#!/bin/bash
-
-cd {{ pillar['mysql_install_dir'] }}
-ln -s {{ pillar['mysql_install_dir'] }}/mysql-{{ pillar['mysql_version'] }}-linux-glibc2.12-x86_64 {{ pillar['mysql_install_dir'] }}/mysql
-chown -R mysql.mysql {{ pillar['mysql_install_dir'] }}/mysql*
-{{ pillar['mysql_install_dir'] }}/mysql/bin/mysqld --initialize-insecure --user=mysql --datadir={{ pillar['data_dir'] }}
-echo "export PATH={{ pillar['mysql_install_dir'] }}/mysql/bin:\$PATH" > /etc/profile.d/mysql.sh
