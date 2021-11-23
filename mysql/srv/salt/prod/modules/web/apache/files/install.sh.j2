@@ -1,0 +1,24 @@
+#!/bin/bash
+
+cd /usr/src
+rm -rf apr-{{ pillar['apr_version'] }} apr-util-{{ pillar['apr-util_version'] }} httpd-{{ pillar['httpd_version'] }}
+cd apr-{{ pillar['apr_version'] }}
+	sed -i '/$RM "$cfgfile"/d' configure
+	./configure --prefix=/usr/local/apr && make -j && make install
+cd ../apr-util-{{ pillar['apr-util_version'] }}
+if [ ! -d /usr/local/apr-util  ];then
+	./configure --prefix=/usr/local/apr-util --with-apr=/usr/local/apr && make -j && make install
+fi
+cd ../httpd-{{ pillar['httpd_version'] }}
+	 ./configure --prefix="{{ pillar['httpd_install_dir'] }}" \
+		 --enable-so \
+		 --enable-ssl \
+		 --enable-cgi \
+		 --enable-rewrite \
+		 --with-zlib \
+		 --with-pcre \
+		 --with-apr=/usr/local/apr \
+		 --with-apr-util=/usr/local/apr-util/ \
+		 --enable-modules=most \
+		 --enable-mpms-shared=all \
+		 --with-mpm=prefork  && make -j && make install
