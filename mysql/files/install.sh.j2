@@ -1,7 +1,0 @@
-#!/bin/bash
-
-cd /usr/local
-ln -s /usr/local/mysql-{{ pillar['mysql_version'] }}-linux-glibc2.12-x86_64 /usr/local/mysql
-chown -R mysql.mysql /usr/local/mysql*
-/usr/local/mysql/bin/mysqld --initialize-insecure --user=mysql --datadir=/opt/data/
-echo "export PATH=/usr/local/mysql/bin:\$PATH" > /etc/profile.d/mysql.sh
